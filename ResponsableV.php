@@ -1,13 +1,18 @@
 <?php  
 
-class ResponsableV{
+class ResponsableV {
 
-    public $numeroEmpleado;
-    public $numeroLicencia;
+    private $numeroEmpleado;
+    private $numeroLicencia;
+    private $nombre;
+    private $apellido;
 
-    public $nombre;
-
-    public $apellido;
+    /*constructor
+    * @param Integer  $numeroEmpleado
+	* @param Integer  $numeroLicencia
+	* @param String   $nombre
+    * @param String   $apellido
+	*/
 
     public function __construct($numeroEmpleado,$numeroLicencia,$nombre,$apellido){
 
@@ -15,7 +20,6 @@ class ResponsableV{
         $this->numeroLicencia = $numeroLicencia;
         $this->nombre = $nombre;
         $this->apellido = $apellido;
-
 
     }
 
@@ -27,11 +31,11 @@ class ResponsableV{
         return $this->numeroLicencia;
     }
 
-    public function getNombre(){
+    public function getNombreResponsable(){
         return $this->nombre;
     }
 
-    public function getApellido(){
+    public function getApellidoResponsable(){
         return $this->apellido;
     }
 
@@ -43,18 +47,28 @@ class ResponsableV{
         $this->numeroLicencia = $numeroLicencia;
     }
 
-    public function setNombre($nombre){
+    public function setNombreResponsable($nombre){
         $this->nombre = $nombre;
     }
 
-    public function setApellido($apellido){
+    public function setApellidoResponsable($apellido){
         $this->apellido = $apellido;
     }
 
     public function __toString(){
-        return "\n Número Empleado:".$this->getNumeroEmpleado()."\n Número Licencia:". $this->getNumeroLicencia()."\n Nombre:". $this->getNombre()."\n Apellido:".$this->getApellido();
+        return "Número Empleado: ".$this->getNumeroEmpleado()."\n". 
+               "Número Licencia: ". $this->getNumeroLicencia()."\n".
+               "Nombre: ". $this->getNombreResponsable()."\n". 
+               "Apellido: ".$this->getApellidoResponsable();
     }
+ 
+    public function agregarResponsable($numeroEmpleado,$numeroLicencia,$nombre,$apellido){
 
+        $this->setNumeroEmpleado($numeroEmpleado);
+        $this->setNumeroLicencia($numeroLicencia);
+        $this->setNombreResponsable($nombre);
+        $this->setApellidoResponsable($apellido);
+    }
     
 
 }

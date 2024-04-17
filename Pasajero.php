@@ -65,7 +65,18 @@ class Pasajero{
 
     
     public function __toString(){
-        return "\n Nombre: ".$this->getNombre()."\n Apellido: ".$this->getApellido()."\n Documento: ".$this->getDocumento()."\n Telefono: ".$this->getTelefono();
+        return "Nombre: ".$this->getNombre()."\n".
+               "Apellido: ".$this->getApellido()."\n".
+               "Documento: ".$this->getDocumento()."\n".
+               "Telefono: ".$this->getTelefono();
+    }
+
+    public function agregarPasajero($nombre,$apelldio,$documento,$telefono){
+
+        $this->setNombre( $nombre );
+        $this->setApellido( $apelldio );
+        $this->setDocumento( $documento );
+        $this->setTelefono( $telefono );
     }
    
    

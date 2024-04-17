@@ -1,13 +1,12 @@
 <?php
 
+class Viaje {
 
-class Viaje{
-
-    public $codigo;
-    public $destino;
-    public $maximaPasajeros;
-    public $arrayPasajeros = array();
-    public $responsable;
+    private $codigo;
+    private $destino;
+    private $maximaPasajeros;
+    private $arrayPasajeros;
+    private $objResponsable;
     
 
     /*constructor
@@ -15,15 +14,16 @@ class Viaje{
 	* @param String  $destino
 	* @param Integer $maximaPasajeros
 	* @param Array   $arrayPasajeros
+    * @param ResponsableV   $objResponsable
 	
 	* */
-    public function __constructor ($codigo,$destino,$maximaPasajeros,$arrayPasajeros,ResponsableV $responsable){
+    public function __constructor ($codigo,$destino,$maximaPasajeros,$objResponsable){
 
         $this->codigo = $codigo;
         $this->destino = $destino;
         $this->maximaPasajeros = $maximaPasajeros;
-        $this->arrayPasajeros = $arrayPasajeros;
-        $this->responsable = $responsable;
+        $this->arrayPasajeros = [];
+        $this->objResponsable = $objResponsable;
     }
     
 
@@ -58,47 +58,60 @@ class Viaje{
          $this->maximaPasajeros = $maximaPasajeros;
     }
 
-    public function getArrayPasajeros(){
-
+    public function getPasajeros(){
         return $this->arrayPasajeros;
     }
 
-    public function setArrayPasajeros($arrayPasajeros){
+    public function setPasajeros($arrayPasajeros){
 
          $this->arrayPasajeros = $arrayPasajeros;
     }
 
-    public function getResponsable(){
-        return $this->responsable;
+    public function getObjResponsable(){
+        return $this->objResponsable;
     }
 
-    public function setResponsable($responsable){
+    public function setObjResponsable($objResponsable){
 
-        $this->responsable = $responsable;
+        $this->objResponsable = $objResponsable;
     }
     
     public function __toString(){
-        $arrayPasajeros = $this->getArrayPasajeros();
-       return "\n Código:".$this->getCodigo()."\n Destino:".$this->getDestino()."\n Cantidad Máxima Pasajeros:".$this->getMaximaPasajeros()."\n Pasajeros del Viaje:" .$this->devolverArreglo($arrayPasajeros). "\n Responsable :".$this->getResponsable();
+        
+       return "Código: ".$this->getCodigo()."\n".
+              "Destino: ".$this->getDestino()."\n".
+              "Cantidad Máxima Pasajeros: ".$this->getMaximaPasajeros()."\n".
+              /*"Pasajeros del Viaje: " .$this->mostrarPasajeros(). "\n".*/
+              "Responsable : \n".$this->getObjResponsable()."\n";
     }
 
-    public function devolverArreglo($arrayPasajeros){
-
+    public function mostrarPasajeros(){
+        $colPasajeros =  $this->getPasajeros();
         $cadena = "";
-
-        foreach($arrayPasajeros as $elemento){
-            $cadena = $elemento;
+        $nroPasajero = 0;
+        for($i=0;$i<count($colPasajeros);$i++){
+            $pasajero=$colPasajeros[$i];
+            $cadena = $cadena."Pasajero: ".$nroPasajero++."-".$pasajero."\n";
         }
 
         return $cadena;
 
     }
 
-    public function agregarPasajero($pasajero){
+    public function agregarViaje($codigo,$destino,$maximaPasajeros,$responsable){
+
+           $this->setCodigo($codigo);
+           $this->setDestino($destino);
+           $this->setMaximaPasajeros($maximaPasajeros);
+           $this->setObjResponsable($responsable);
+
+    }
+    public function agregarPasajeros($pasajero){
         $ingresado = false;
         if (count($this->arrayPasajeros) < $this->maximaPasajeros){
             if(!$this->existePasajero($pasajero)){
-               $this->setArrayPasajeros($pasajero);
+               $this->setPasajeros($pasajero);
+               array_push($this->arrayPasajeros, $pasajero);
                $ingresado = true;
             }
         }
@@ -106,35 +119,38 @@ class Viaje{
         return $ingresado;
     }
 
+    public function cantidadPasajeros(){
+        $ingreso=false;
+        if(count($this->arrayPasajeros) <= $this->maximaPasajeros){
+            $ingreso = true;
+        }
+        return $ingreso;
+    }
+
     public function existePasajero($documento){
-        $existe = false;
-        foreach($this->arrayPasajeros as $i){
-            if($i->getNumeroDocumento() == $documento){
-                $existe = true;
+        $arrayPasajero = $this->arrayPasajeros;
+        $i=0;
+        $encontrado = false;
+        while($i<$this->cantidadPasajeros() && !$encontrado){
+            $unPasajero = $arrayPasajero[$i];
+            if($unPasajero->getNumeroDocumento() == $documento){
+                $encontrado = true;
+            }else{
+                $i++;
             }
         }
-        return $existe;
+        if(!$encontrado){
+            $i = -1;
+        }
+
+        return $i;
 
     }
 
-    public function modificarPasajero($documento, $nuevo_pasajero){
-
-        $existe = false;
-        foreach($this->arrayPasajeros as $i){
-            if($i->getNumeroDocumento() == $documento){
-                $existe = true;
-                $pasajero = $this->arrayPasajeros;
-                $pasajero->setNombre($nuevo_pasajero->getNombre());
-                $pasajero->setApellido($nuevo_pasajero->getApellido());
-                $pasajero->setNumeroDocumento($nuevo_pasajero->getNumeroDocumento());
-                $pasajero->setTelefono($nuevo_pasajero->getTelefono());
-            }
-        }
-        return $existe;
-    }
+    
 
    
 }
 
 
-?>
+
